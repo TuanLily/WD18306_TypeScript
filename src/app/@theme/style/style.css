@@ -92,3 +92,7 @@ body {
 .minutes {
     color: #ffffff;
 }
+
+.card {
+    margin: 22px;
+}
