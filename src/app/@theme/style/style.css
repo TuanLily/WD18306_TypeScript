@@ -1,0 +1,94 @@
+@font-face {
+    font-family: 'Truculenta';
+    /* Tên font */
+    src: url('../../../assets/fonts/Truculenta/Truculenta-VariableFont_opsz\,wdth\,wght.ttf') format('woff2');
+    /* Định dạng font */
+    font-weight: normal;
+    /* Trọng lượng font */
+    font-style: normal;
+    /* Kiểu font */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url("../../../assets/images/bg.jpeg");
+    /* Căn chỉnh background */
+    background-size: cover;
+    /* Phù hợp với kích thước của cửa sổ trình duyệt */
+    background-position: center;
+    /* Canh giữa hình ảnh */
+    background-repeat: no-repeat;
+    /* Không lặp lại hình ảnh */
+}
+
+
+.card {
+    width: 120px;
+    height: 120px;
+    margin: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+}
+
+.card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    /* Zoom in hình ảnh */
+    filter: brightness(70%);
+    /* Làm mờ hình ảnh */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    /* Hiệu ứng bóng đổ */
+}
+
+
+.matched {
+    pointer-events: none;
+}
+
+.custom-img {
+    margin-right: -30px;
+    margin-left: -30px;
+}
+
+.title-font {
+    font-family: 'Truculenta', arial, helvetica, sans-serif;
+    color: #fff;
+}
+
+.countdown {
+    font-size: 2rem;
+}
+
+.timer {
+    display: inline-block;
+    border: 2px solid #ffffff;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.timer span {
+    padding: 0 5px;
+}
+
+.dot {
+    margin-left: -6px;
+    margin-right: -6px;
+    color: #fff;
+}
+
+.hours,
+.seconds,
+.minutes {
+    color: #ffffff;
+}
