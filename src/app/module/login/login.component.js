@@ -7,18 +7,19 @@ loginForm.addEventListener('submit', function (event) {
     if (gameNameInput && errorMessage) {
         var inputValue = gameNameInput.value.trim();
         var specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
-        const fruitGameKeyword = "Fruit Game";
 
         if (!inputValue) {
-            errorMessage.innerHTML = '<span class="text-danger">Tên game không được để trống</span>';
+            errorMessage.innerHTML = '<span class="text-danger">Tên người chơi không được để trống</span>';
         }
         else if (inputValue.length < 2) {
-            errorMessage.innerHTML = '<span class="text-danger">Tên game không được dưới 2 ký tự</span>';
+            errorMessage.innerHTML = '<span class="text-danger">Tên người chơi không được dưới 2 ký tự</span>';
+
         }
         else if (specialCharsRegex.test(inputValue)) {
-            errorMessage.innerHTML = '<span class="text-danger">Tên game không được chứa ký tự đặc biệt</span>';
+            errorMessage.innerHTML = '<span class="text-danger">Tên người chơi không được chứa ký tự đặc biệt</span>';
+
         }
-        else if (inputValue.toLowerCase().trim().startsWith(fruitGameKeyword.toLowerCase())) {
+        else {
             Swal.fire({
                 title: 'Success!',
                 text: 'Redirecting to Fruit Game...',
@@ -28,10 +29,6 @@ loginForm.addEventListener('submit', function (event) {
             }).then(() => {
                 window.location.replace("../../module/main/mainGame.html");
             });
-        }
-
-        else {
-            errorMessage.innerHTML = '<span class="text-danger">Tên game không hợp lệ</span>';
         }
     }
 });

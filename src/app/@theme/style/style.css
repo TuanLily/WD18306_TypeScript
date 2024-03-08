@@ -96,3 +96,26 @@ body {
 .card {
     margin: 22px;
 }
+
+/* CSS for enlarging image */
+.enlarged {
+    width: 300px;
+    /* Kích thước lớn hơn cho ảnh phóng to */
+    height: 300px;
+}
+
+/* CSS for dimming background */
+.dimmed {
+    opacity: 0.5;
+    /* Sử dụng opacity để làm mờ nền */
+}
+
+.card-img-top {
+    transition: opacity 0.5s ease-in-out;
+    /* áp dụng transition cho thuộc tính opacity trong 0.5s với kiểu transition là ease-in-out */
+}
+
+.hidden {
+    opacity: 0;
+    /* ẩn ảnh bằng cách đặt opacity thành 0 */
+}

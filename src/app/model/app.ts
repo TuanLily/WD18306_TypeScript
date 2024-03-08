@@ -1,57 +1,61 @@
-
 const fruitImagesList: string[] = [
-    '../../assets/images/cam.png',
-    '../../assets/images/canhvang.png',
-    '../../assets/images/chanhxanh.png',
-    '../../assets/images/dau.png',
-    '../../assets/images/luu.png',
-    '../../assets/images/tao.png',
+    'cam.png',
+    'canhvang.png',
+    'chanhxanh.png',
+    'dau.png',
+    'luu.png',
+    'tao.png',
 ];
 
-// Shuffle function to randomize array elements
-function shuffleArray(array: any[]) {
+// Hàm shuffleArray dùng để xáo trộng hình ảnh ngẫu nhiên
+function shuffleArray<T>(array: T[]): void {
     for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        const j: number = Math.floor(Math.random() * (i + 1));
+        const temp: T = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 }
 
-// Duplicate array elements
-function duplicateArrayElements(array: any[]) {
-    return array.flatMap(item => [item, item]);
+// Nhân đôi vật thể
+function duplicateArrayElements<T>(array: T[]): T[] {
+    return array.flatMap((item) => [item, item]);
 }
 
-function createCardElements(imageUrls: string[]) {
-    const container = document.getElementById('grid');
+function createCardElements(imageUrls: string[]): void {
+    const container: HTMLElement | null = document.getElementById('grid');
     if (container) {
-        // Duplicate image array
-        const duplicatedImages = duplicateArrayElements(imageUrls);
-
-        // Shuffle images randomly
+        const duplicatedImages: string[] = duplicateArrayElements(imageUrls);
         shuffleArray(duplicatedImages);
-
-        // Create a string to hold the HTML content
-        let htmlContent = '';
-
-        // Loop through duplicated and shuffled images to create cards
-        duplicatedImages.forEach(imageUrl => {
-            // Create HTML string for each image
-            const cardHtml = `
-                <div class="col-md-auto">
-                    <div class="card">
-                        <img src="${imageUrl}" alt="Fruit" width="120" height="120" class="card-img-top">
+        let htmlContent: string = '';
+        duplicatedImages.forEach((imageUrl) => {
+            const cardHtml: string = `
+                <div class="col-md-2">
+                    <div class="card" onclick="toggleImageSize(this)">
+                        <img src="../../../assets/images/${imageUrl}" alt="Fruit" width="120" height="120" class="card-img-top hidden">
                     </div>
                 </div>
             `;
-
-            // Append card HTML to the main HTML content
             htmlContent += cardHtml;
         });
-
-        // Add the HTML content to the container
         container.innerHTML = htmlContent;
     }
 }
 
-// Call the function with the image array
+// Function to toggle image visibility
+function toggleImageSize(card: HTMLElement): void {
+    const img: HTMLElement | null = card.querySelector('.card-img-top');
+    if (img && img.classList.contains('hidden')) {
+        img.classList.remove('hidden');
+        setTimeout(() => {
+            if (img) img.style.opacity = '1'; // thay đổi opacity của ảnh thành 1 sau 10ms để kích hoạt transition
+        }, 10);
+    } else if (img) {
+        img.style.opacity = '0'; // thay đổi opacity của ảnh thành 0 để ẩn đi
+        setTimeout(() => {
+            img.classList.add('hidden'); // sau khi opacity của ảnh thành 0, thêm lớp hidden để ẩn ảnh
+        }, 10); // thời gian delay 0.5s để chờ transition kết thúc
+    }
+}
+
 createCardElements(fruitImagesList);
