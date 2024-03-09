@@ -27,20 +27,34 @@ body {
 }
 
 
+/* Đặt hình nền ban đầu */
 .card {
     width: 120px;
     height: 120px;
-    margin: 5px;
+    margin: 22px;
     cursor: pointer;
     transition: transform 0.3s ease;
-
+    background-image: url('../../../assets/images/cardbg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
 }
+
 
 .card img {
-    width: 120px;
-    height: 120px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    opacity: 0;
+    pointer-events: none; /* Ngăn chặn các sự kiện chuột */
 }
+
+.card.clicked img {
+    background-color: white;
+    opacity: 1;
+}
+
 
 .card:hover {
     transform: scale(1.05);
@@ -93,10 +107,6 @@ body {
     color: #ffffff;
 }
 
-.card {
-    margin: 22px;
-}
-
 /* CSS for enlarging image */
 .enlarged {
     width: 300px;
@@ -116,6 +126,7 @@ body {
 }
 
 .hidden {
+
     opacity: 0;
     /* ẩn ảnh bằng cách đặt opacity thành 0 */
 }
