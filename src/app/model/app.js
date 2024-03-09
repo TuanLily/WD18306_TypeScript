@@ -10,6 +10,11 @@ var fruitImagesList = [
     'bo.png',
 ];
 
+var flippedCards = [];
+var matchedCards = [];
+var isFlipping = false;
+
+
 // Hàm shuffleArray dùng để xáo trộng hình ảnh ngẫu nhiên
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -34,7 +39,7 @@ function createCardElements(imageUrls) {
         duplicatedImages.forEach(function (imageUrl) {
             var cardHtml = `
                 <div class="col-md-2">
-                    <div class="card" onclick="toggleImageSize(this)">
+                    <div class="card" onclick="toggleImageSize(this)" isOpen="false">
                         <img src="../../../assets/images/${imageUrl}" alt="Fruit" width="120" height="120" class="card-img-top hidden">
                     </div>
                 </div>
@@ -46,22 +51,63 @@ function createCardElements(imageUrls) {
 }
 
 // Function to toggle image visibility
-function toggleImageSize(card) {
+async function toggleImageSize(card) {
+    if (isFlipping || card.isOpen || card.parentNode.style.backgroundColor === 'green') return; // Nếu ảnh đang lật, thẻ đã mở ra trước đó hoặc thẻ đã được tô xanh, không làm gì cả
+
     var img = card.querySelector('.card-img-top');
-    if (img.classList.contains('hidden')) {
-        img.classList.remove('hidden');
-        setTimeout(function () {
-            img.style.opacity = '1'; // thay đổi opacity của ảnh thành 1 sau 10ms để kích hoạt transition
-        }, 10);
+    img.classList.remove('hidden');
+    flippedCards.push(card);
+
+    if (flippedCards.length === 2) {
+        var firstImgSrc = flippedCards[0].querySelector('.card-img-top').getAttribute('src');
+        var secondImgSrc = flippedCards[1].querySelector('.card-img-top').getAttribute('src');
+
+        if (firstImgSrc === secondImgSrc) {
+            flippedCards.forEach(function (flippedCard) {
+                flippedCard.style.backgroundColor = 'green'; // Đặt màu nền thành màu xanh cho các thẻ đã khớp
+                matchedCards.push(flippedCard);
+            });
+
+            // Kiểm tra xem tất cả các cặp đã được tìm thấy chưa
+            if (matchedCards.length === fruitImagesList.length * 2) {
+                setTimeout(function () {
+                    // Sử dụng SweetAlert để hiển thị thông báo
+                    Swal.fire({
+                        title: 'Chúc mừng!',
+                        text: 'Bạn đã chiến thắng trò chơi!',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        // Kiểm tra xem người dùng đã bấm vào nút "OK" chưa
+                        if (result.isConfirmed) {
+                            // Tải lại trang
+                            location.reload();
+                        }
+                    });
+                }, 500);
+            }
+        } else {
+            isFlipping = true; // Đặt trạng thái đang lật thành true
+            await new Promise(resolve => setTimeout(resolve, 500)); // Chờ 0.5 giây
+            flippedCards.forEach(async function (flippedCard) {
+                var flippedImg = flippedCard.querySelector('.card-img-top');
+                flippedImg.style.backgroundColor = 'red'; // Đặt màu nền thành màu đỏ cho các thẻ không khớp
+                await new Promise(resolve => setTimeout(resolve, 500)); // Chờ 500ms
+                flippedImg.classList.add('hidden'); // Ẩn ảnh đi
+                flippedImg.classList.remove('hidden'); // Hiển thị ảnh lại để vòng lặp tiếp theo
+                flippedImg.style.backgroundColor = ''; // Đặt lại màu nền
+                flippedCard.isOpen = false; // Đặt lại trạng thái của thẻ thành đã đóng
+            });
+            isFlipping = false; // Đặt trạng thái đang lật thành false
+        }
+        flippedCards = []; // Đặt lại danh sách các thẻ đã lật cho vòng lặp tiếp theo
     } else {
-        img.style.opacity = '0'; // thay đổi opacity của ảnh thành 0 để ẩn đi
-        setTimeout(function () {
-            img.classList.add('hidden'); // sau khi opacity của ảnh thành 0, thêm lớp hidden để ẩn ảnh
-        }, 10); // thời gian delay 0.5s để chờ transition kết thúc
+        card.isOpen = true; // Đặt trạng thái của thẻ thành đã mở
     }
 }
 
 
 
 
+// Chạy màn chơi
 createCardElements(fruitImagesList);
