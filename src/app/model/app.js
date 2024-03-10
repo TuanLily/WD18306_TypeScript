@@ -1,13 +1,16 @@
 var fruitImagesList = [
     'cam.png',
-    'canhvang.png',
+    'chanhvang.png',
     'chanhxanh.png',
     'dau.png',
-    'luu.png',
+    'dao.png',
     'tao.png',
     'duahau.png',
-    'dualeo.png',
-    'bo.png',
+    'khom.png',
+    'nho.png',
+    'cachua.png',
+    'cherry.png',
+    'chuoi.png',
 ];
 
 var flippedCards = [];
@@ -38,7 +41,7 @@ function createCardElements(imageUrls) {
         var htmlContent = '';
         duplicatedImages.forEach(function (imageUrl) {
             var cardHtml = `
-                <div class="col-md-2">
+                <div class="col-md-1_5">
                     <div class="card" onclick="toggleImageSize(this)" isOpen="false">
                         <img src="../../../assets/images/${imageUrl}" alt="Fruit" width="120" height="120" class="card-img-top hidden">
                     </div>
@@ -124,60 +127,19 @@ function updateScore() {
 createCardElements(fruitImagesList);
 
 
+let countdownInterval; // Biến để lưu trạng thái của countdown
 
-// Lấy thẻ nút "Reset Game"
-var resetButton = document.querySelector('.restart');
-
-// Gắn sự kiện click cho nút "Reset Game"
-// Gắn sự kiện click cho nút "Reset Game"
-resetButton.addEventListener('click', function () {
-    // Hiển thị cửa sổ thông báo xác nhận chơi lại
-    Swal.fire({
-        title: 'Bạn có chắc chắn muốn chơi lại?',
-        text: 'Mọi tiến trình hiện tại sẽ bị mất!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Chơi lại',
-        cancelButtonText: 'Hủy'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Xóa bỏ sự kiện click cho các thẻ card
-            var cards = document.querySelectorAll('.card');
-            cards.forEach(function (card) {
-                card.removeEventListener('click', toggleImageSize);
-            });
-
-            // Xóa bỏ sự kiện click cho nút "Reset Game"
-            resetButton.removeEventListener('click', this);
-
-            // Xóa bỏ các sự kiện khác nếu cần
-
-            // Xáo trộn lại vị trí các thẻ ngẫu nhiên
-            var container = document.getElementById('grid');
-            if (container) {
-                container.innerHTML = ''; // Xóa nội dung container
-                createCardElements(fruitImagesList); // Tạo lại các thẻ card
-            }
-        }
-    });
-});
-
-
-const startGame = document.querySelector('.start');
-
-startGame.addEventListener('click', function () {
-    // Lấy các thẻ span chứa giờ, phút, giây
+// Bắt đầu countdown
+function startCountdown() {
     const hoursSpan = document.querySelector('.hours');
     const minutesSpan = document.querySelector('.minutes');
     const secondsSpan = document.querySelector('.seconds');
 
     // Đặt thời gian bắt đầu là 2 phút (120 giây)
-    let totalTimeInSeconds = 10;
+    let totalTimeInSeconds = 120;
 
     // Cập nhật giá trị của countdown mỗi giây
-    const countdown = setInterval(() => {
+    countdownInterval = setInterval(() => {
         // Tính toán giờ, phút và giây
         const hours = Math.floor(totalTimeInSeconds / 3600);
         const minutes = Math.floor((totalTimeInSeconds % 3600) / 60);
@@ -191,12 +153,110 @@ startGame.addEventListener('click', function () {
         // Giảm thời gian còn lại đi 1 giây
         totalTimeInSeconds--;
 
-        // Khi đến 0, dừng countdown
+        // Khi đến 0, dừng countdown và hiển thị thông báo
         if (totalTimeInSeconds < 0) {
-            clearInterval(countdown);
+            clearInterval(countdownInterval);
             // Thực hiện các hành động khi countdown kết thúc ở đây
-            alert('Countdown đã kết thúc!');
+            Swal.fire({
+                title: "Hết thời gian!",
+                text: "Bạn muốn chơi lại?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Chơi lại",
+                cancelButtonText: "Thoát",
+                reverseButtons: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Thêm mã xử lý cho việc chơi lại ở đây
+                    location.reload();
+                } else {
+                    // Thoát game
+                    alert('Cảm ơn bạn đã tham gia!');
+                }
+            });
         }
-    }, 1000); // Cập nhật mỗi 1 giây
+    }, 1000); 
+}
 
+const startGame = document.querySelector('.start');
+startGame.addEventListener('click', function () {
+    // Hiển thị thông báo trò chơi sẽ bắt đầu sau 3 giây
+    Swal.fire({
+        title: "Trò chơi sẽ bắt đầu sau 3 giây!",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+    }).then(() => {
+        // Bắt đầu countdown sau khi thông báo kết thúc
+        startCountdown();
+    });
+});
+
+const resetButton = document.querySelector('.restart');
+resetButton.addEventListener('click', function () {
+    // Hủy bỏ countdown nếu đang chạy
+    clearInterval(countdownInterval);
+
+    // Đặt thời gian quay trở lại 0
+    let hoursSpan = document.querySelector('.hours');
+    let minutesSpan = document.querySelector('.minutes');
+    let secondsSpan = document.querySelector('.seconds');
+    hoursSpan.textContent = '00';
+    minutesSpan.textContent = '00';
+    secondsSpan.textContent = '00';
+
+    // Hiển thị cửa sổ thông báo xác nhận chơi lại
+    Swal.fire({
+        title: 'Bạn có chắc chắn muốn chơi lại?',
+        text: 'Mọi tiến trình hiện tại sẽ bị mất!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Chơi lại',
+        cancelButtonText: 'Hủy'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Xóa bỏ sự kiện click cho các thẻ card
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card) => {
+                card.removeEventListener('click', toggleImageSize);
+            });
+
+            // Xóa bỏ sự kiện click cho nút "Reset Game"
+            resetButton.removeEventListener('click', this);
+
+            score = 0;
+            updateScore();
+            // Xáo trộn lại vị trí các thẻ ngẫu nhiên
+            const container = document.getElementById('grid');
+            if (container) {
+                container.innerHTML = ''; // Xóa nội dung container
+                createCardElements(fruitImagesList); // Tạo lại các thẻ card
+            }
+        }
+    });
+});
+
+
+const exitButton = document.querySelector('.exit');
+
+exitButton.addEventListener('click', function () {
+    // Hiển thị cửa sổ thông báo xác nhận thoát trò chơi
+    Swal.fire({
+        title: 'Bạn có chắc muốn thoát trò chơi?',
+        text: 'Mọi tiến trình hiện tại sẽ bị mất!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Thoát ',
+        cancelButtonText: 'Ở lại'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Chuyển đến trang đăng nhập hoặc trang chính của trò chơi
+            // Đặt đường dẫn đích ở đây
+            window.location.href = "http://127.0.0.1:5501/src/app/module/login/login.component.html";
+        }
+    });
 });

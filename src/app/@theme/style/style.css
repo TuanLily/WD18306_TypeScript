@@ -26,12 +26,22 @@ body {
     /* Không lặp lại hình ảnh */
 }
 
+.col-md-1_5 {
+    flex: 0 0 11.5%;
+    max-width: 11.5%;
+}
 
-/* Đặt hình nền ban đầu */
+#grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .card {
     width: 120px;
     height: 120px;
-    margin: 22px;
+    margin: 10px -5px;
+    /* 10px ở trên và dưới, 18px ở trái và phải */
     cursor: pointer;
     transition: transform 0.3s ease;
     background-image: url('../../../assets/images/cardbg.jpg');
@@ -47,7 +57,8 @@ body {
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    pointer-events: none; /* Ngăn chặn các sự kiện chuột */
+    pointer-events: none;
+    /* Ngăn chặn các sự kiện chuột */
 }
 
 .card.clicked img {
