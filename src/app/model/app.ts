@@ -1,4 +1,4 @@
-import Swal from 'sweetalert2';
+const Swal = require('sweetalert2');
 const fruitImagesList: string[] = [
     'cam.png',
     'canhvang.png',
@@ -91,7 +91,7 @@ async function toggleImageSize(card: HTMLElement): Promise<void> {
                         text: 'Bạn đã chiến thắng trò chơi!',
                         icon: 'success',
                         confirmButtonText: 'OK'
-                    }).then((result) => {
+                    }).then((result:any) => {
                         if (result.isConfirmed) {
                             location.reload();
                         }
@@ -143,7 +143,7 @@ if (resetButton) {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Chơi lại',
             cancelButtonText: 'Hủy'
-        }).then((result) => {
+        }).then((result:any) => {
             if (result.isConfirmed) {
                 location.reload();
             }

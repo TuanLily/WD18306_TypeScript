@@ -16,6 +16,8 @@ var fruitImagesList = [
 var flippedCards = [];
 var matchedCards = [];
 var isFlipping = false;
+let gameStarted = false; // Biến để theo dõi trạng thái của trò chơi
+
 
 
 // Hàm shuffleArray dùng để xáo trộng hình ảnh ngẫu nhiên
@@ -58,6 +60,8 @@ function createCardElements(imageUrls) {
 let score = 0;
 
 async function toggleImageSize(card) {
+
+    if (!gameStarted) return;
     if (isFlipping || card.isOpen || card.style.backgroundColor === 'green') return;
 
     var img = card.querySelector('.card-img-top');
@@ -175,7 +179,7 @@ function startCountdown() {
                 }
             });
         }
-    }, 1000); 
+    }, 1000);
 }
 
 const startGame = document.querySelector('.start');
@@ -189,11 +193,15 @@ startGame.addEventListener('click', function () {
     }).then(() => {
         // Bắt đầu countdown sau khi thông báo kết thúc
         startCountdown();
+        // Đặt trạng thái của trò chơi thành true
+        gameStarted = true;
     });
 });
 
 const resetButton = document.querySelector('.restart');
 resetButton.addEventListener('click', function () {
+    gameStarted = false;
+
     // Hủy bỏ countdown nếu đang chạy
     clearInterval(countdownInterval);
 
@@ -242,6 +250,7 @@ resetButton.addEventListener('click', function () {
 const exitButton = document.querySelector('.exit');
 
 exitButton.addEventListener('click', function () {
+
     // Hiển thị cửa sổ thông báo xác nhận thoát trò chơi
     Swal.fire({
         title: 'Bạn có chắc muốn thoát trò chơi?',
