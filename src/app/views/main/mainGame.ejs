@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fruit Similar Game</title>
     <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="../../@theme/style/style.css" />
+    <link rel="stylesheet" href="app/@theme/style/style.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css"
@@ -21,8 +23,9 @@
       type="image/x-icon"
     />
 
-    <script>var exports = {};</script>
-
+    <script>
+      var exports = {};
+    </script>
   </head>
 
   <body>
@@ -49,11 +52,7 @@
           class="row my-2 justify-content-center align-items-center"
           id="grid"
         >
-          <!-- <div class="col-md-2">
-                    <div class="card" onclick="toggleImageSize(this)" isOpen="false">
-                        <img src="../../../assets/images/${imageUrl}" alt="Fruit" width="120" height="120" class="card-img-top hidden">
-                    </div>
-                </div> -->
+          <!-- Your game grid elements go here -->
         </div>
       </div>
 
@@ -66,10 +65,9 @@
       </div>
     </div>
 
-    <!-- <script src="../../model/app.js"></script> -->
+    <%- include('../../@theme/component/footer/footer.component.ejs') %>
 
-    <script src="../../../../dist/app/model/app.js"></script>
-
+    <script src="../../../src/app/model/app.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

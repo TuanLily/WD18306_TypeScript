@@ -293,7 +293,7 @@ if (exitButton) {
             if (result.isConfirmed) {
                 // Chuyển đến trang đăng nhập hoặc trang chính của trò chơi
                 // Đặt đường dẫn đích ở đây
-                window.location.href = "http://127.0.0.1:5501/src/app/module/login/login.component.html";
+                window.location.href = "http://127.0.0.1:3883/login";
             }
         });
     });
