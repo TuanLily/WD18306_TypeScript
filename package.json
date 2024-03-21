@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon --inspect dist/server.js",
     "build": "tsc --watch",
-    "buildWebpack": "webpack",
+    "buildWebpack": "webpack --stats-error-details",
     "tslint:check": "tslint -c tslint.json 'src/**/*.{ts,tsx}'"
   },
   "author": "",
@@ -26,6 +26,10 @@
     "dotenv": "^16.4.5",
     "ejs": "^3.1.9",
     "express": "^4.18.3",
-    "sweetalert2": "^11.10.6"
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "sweetalert2": "^11.10.6",
+    "ts-loader": "^9.5.1",
+    "util": "^0.12.5"
   }
 }

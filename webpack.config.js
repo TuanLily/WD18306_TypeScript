@@ -2,7 +2,7 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
   mode: 'none',
-  entry: './src/app.ts',
+  entry: './server.ts',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
@@ -20,7 +20,10 @@ module.exports = {
       "http":false,
       "string_decoder":false,
       "stream":false,
-      "async_hooks":false
+      "async_hooks":false,
+      "path": require.resolve("path-browserify"),
+      "os": require.resolve("os-browserify/browser"),
+      "util": false
 
     }
   },
@@ -38,9 +41,7 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        { from: 'src/views', to: 'views' },
-        { from: 'src/public', to: 'public' },
-      
+        { from: 'src/app/views', to: 'views' },      
         // Copy other necessary directories or files
       ],
     }),
